@@ -1,15 +1,15 @@
 
 // script.js
 
+const backendUrl = 'http://localhost:3000';
+
 document.getElementById('laptop').addEventListener('click', () => vote('Laptop'));
 document.getElementById('desktop').addEventListener('click', () => vote('Desktop'));
 
 function vote(option) {
-    fetch('/vote', {
+    fetch(`${backendUrl}/vote`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ option })
     })
     .then(response => response.json())
@@ -21,7 +21,7 @@ function vote(option) {
 }
 
 function fetchResults() {
-    fetch('/results')
+    fetch(`${backendUrl}/results`)
         .then(response => response.json())
         .then(data => {
             document.getElementById('results').innerText = `Laptop: ${data.Laptop}, Desktop: ${data.Desktop}`;

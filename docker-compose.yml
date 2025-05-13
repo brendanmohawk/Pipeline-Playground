@@ -1,0 +1,29 @@
+
+# docker-compose.yml
+# The Docker Compose file that defines and runs the multi-container Docker application.
+# It specfies the services (containers) needed, how they should be built, and how they 
+# interact with each other.
+
+version: '3'
+
+# Defines the containers that will be executed as part of the app
+services: 
+  # Container that runs the backend code (defined in ./backend)
+  backend:
+    # Where the Dockerfile is located to build backend image
+    build:
+      # Directory location of the Dockerfile
+      context: ./backend
+    # Maps port on host to port on container (host:container)
+    ports: 
+      - "3000:3000"
+  
+  # Container that runs the frontend code (defined in ./frontend)
+  frontend: 
+    build: 
+      context: ./frontend
+    ports: 
+      - "8081:80"
+    # Controls order of services (restricts to backend --> frontend on start)
+    depends_on: 
+      - backend 

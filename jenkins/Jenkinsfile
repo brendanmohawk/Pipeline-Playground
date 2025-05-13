@@ -12,8 +12,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/brendanmohawk/Pipeline-Playground.git'
-            }
+                git url: 'https://github.com/brendanmohawk/Pipeline-Playground.git', branch: 'main'            }
         }
 
         stage('Build') {

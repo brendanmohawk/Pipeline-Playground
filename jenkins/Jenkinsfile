@@ -1,6 +1,43 @@
 
+
+// Jenkinsfile
+
 pipeline {
     agent any
 
-    
+    environment {
+        DOCKER_COMPOSE_PATH = './docker-compose.yml'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/brendanmohawk/Pipeline-Playground.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'docker-compose build'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'curl -f http://localhost:3000/results || exit 1'
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                sh 'docker-compose down'
+            }
+        }
+    }
 }

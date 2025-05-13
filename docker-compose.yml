@@ -17,6 +17,12 @@ services:
     # Maps port on host to port on container (host:container)
     ports: 
       - "3000:3000"
+    # Controls order of services (restricts to redis --> database on start)
+    depends_on:
+      - redis
+    # Changes locally show up in the container
+    volumes:
+      - ./backend:/app
   
   # Container that runs the frontend code (defined in ./frontend)
   frontend: 
@@ -24,6 +30,10 @@ services:
       context: ./frontend
     ports: 
       - "8081:80"
-    # Controls order of services (restricts to backend --> frontend on start)
     depends_on: 
       - backend 
+  
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
